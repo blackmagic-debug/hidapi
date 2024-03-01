@@ -19,6 +19,9 @@ project(
 
 target = target_machine.system()
 cc = meson.get_compiler('c')
+library_mode = get_option('default_library')
+build_static = library_mode in ['static', 'both']
+build_shared = library_mode in ['shared', 'both']
 
 version = meson.project_version()
 if get_option('print_version')
@@ -29,6 +32,10 @@ install_targets = get_option('install_targets')
 
 subdir('hidapi')
 
+if target == 'windows'
+	subdir('windows')
+endif
+
 if target == 'darwin'
 elif target == 'linux'
 elif target == 'netbsd'
@@ -36,3 +43,17 @@ elif target == 'windows'
 else
 	error('The host being compiled for is not supported.')
 endif
+
+pkgconfig = import('pkgconfig')
+foreach file, lib : pkgconfig_files
+	pkgconfig.generate(
+		lib,
+		name: 'hidapi',
+		filebase: file,
+		subdirs: 'hidapi',
+		url: 'https://github.com/libusb/hidapi',
+		description: 'C Library for USB/Bluetooth HID device access from Linux, Mac OS X, FreeBSD, and Windows.',
+	)
+endforeach
+
+meson.override_dependency(meson.project_name(), hidapi_dep)
