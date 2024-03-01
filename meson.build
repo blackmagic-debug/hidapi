@@ -1,22 +1,29 @@
-project('hidapi', meson_version: '>=0.57.0', version: files('VERSION'))
+# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-FileCopyrightText: 2023 Rachel Mant <git@dragonmux.network>
 
-cmake = import('cmake')
+project(
+	'hidapi',
+	'c',
+	version: files('VERSION'),
+	meson_version: '>=0.58.0',
+	license: 'BSD-3-Clause OR GPL-3.0-only',
+	default_options: [
+		'warning_level=3',
+		'b_pie=true',
+		'b_lto=true',
+		'cpp_eh=s',
+		'buildtype=release',
+		'b_ndebug=if-release',
+	]
+)
 
-hidapi_build_options = cmake.subproject_options()
-hidapi_build_options.set_install(true)
+target = target_machine.system()
+cc = meson.get_compiler('c')
 
-hidapi_build = cmake.subproject('hidapi_build_cmake', options: hidapi_build_options)
-
-if (hidapi_build.target_list().contains('hidapi_winapi'))
-	hidapi_winapi_dep = hidapi_build.dependency('hidapi_winapi')
-	hidapi_dep = hidapi_winapi_dep
-elif (hidapi_build.target_list().contains('hidapi_darwin'))
-	hidapi_darwin_dep = hidapi_build.dependency('hidapi_darwin')
-	hidapi_dep = hidapi_darwin_dep
-elif (hidapi_build.target_list().contains('hidapi_hidraw'))
-	hidapi_hidraw_dep = hidapi_build.dependency('hidapi_hidraw')
-	hidapi_dep = hidapi_hidraw_dep
-elif (hidapi_build.target_list().contains('hidapi_libusb'))
-	hidapi_libusb_dep = hidapi_build.dependency('hidapi_libusb')
-	hidapi_dep = hidapi_libusb_dep
+if target == 'darwin'
+elif target == 'linux'
+elif target == 'netbsd'
+elif target == 'windows'
+else
+	error('The host being compiled for is not supported.')
 endif
