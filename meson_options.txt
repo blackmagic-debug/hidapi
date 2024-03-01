@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: BSD-3-Clause
+# SPDX-FileCopyrightText: 2023 Rachel Mant <git@dragonmux.network>
+
+option('install_targets', type: 'boolean', value: true, description: 'whether to install the built targets')
+option('print_version', type: 'boolean', value: true, description: 'print the HIDAPI library version during configuration')

@@ -20,6 +20,15 @@ project(
 target = target_machine.system()
 cc = meson.get_compiler('c')
 
+version = meson.project_version()
+if get_option('print_version')
+	message(f'hidapi: v@version@')
+endif
+
+install_targets = get_option('install_targets')
+
+subdir('hidapi')
+
 if target == 'darwin'
 elif target == 'linux'
 elif target == 'netbsd'
