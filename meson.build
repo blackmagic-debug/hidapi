@@ -37,6 +37,8 @@ if target == 'windows'
 	subdir('windows')
 elif target == 'darwin'
 	subdir('mac')
+elif target == 'linux'
+	subdir('linux')
 endif
 
 if target == 'darwin'
@@ -48,11 +50,11 @@ else
 endif
 
 pkgconfig = import('pkgconfig')
-foreach file, lib : pkgconfig_files
+foreach name, lib : pkgconfig_files
 	pkgconfig.generate(
 		lib,
-		name: 'hidapi',
-		filebase: file,
+		name: name,
+		filebase: name,
 		subdirs: 'hidapi',
 		url: 'https://github.com/libusb/hidapi',
 		description: 'C Library for USB/Bluetooth HID device access from Linux, Mac OS X, FreeBSD, and Windows.',
