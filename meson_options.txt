@@ -4,3 +4,5 @@
 option('install_targets', type: 'boolean', value: true, description: 'whether to install the built targets')
 option('print_version', type: 'boolean', value: true, description: 'print the HIDAPI library version during configuration')
 option('tests', type: 'boolean', value: false, description: 'build test applications')
+option('with_libusb', type: 'boolean', value: true, description: 'build the libusb version of the library too')
+option('iconv', type: 'feature', value: 'disabled', description: 'build the libusb based library with iconv support')

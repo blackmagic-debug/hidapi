@@ -22,35 +22,46 @@ cc = meson.get_compiler('c')
 library_mode = get_option('default_library')
 build_static = library_mode in ['static', 'both']
 build_shared = library_mode in ['shared', 'both']
+# Only Windows does not require a threading library here
 threading = dependency('threads', required: target != 'windows')
+install_targets = get_option('install_targets')
+with_libusb = get_option('with_libusb')
 
 version = meson.project_version()
 if get_option('print_version')
 	message(f'hidapi: v@version@')
 endif
 
-install_targets = get_option('install_targets')
-
 subdir('hidapi')
 
+# Figure out which backend to configure and build
 if target == 'windows'
 	subdir('windows')
 elif target == 'darwin'
 	subdir('mac')
 elif target == 'linux'
 	subdir('linux')
+	# If with_libusb is not true and this is Linux, make sure hidapi_dep is hidapi_hidraw_dep
+	if not with_libusb
+		hidapi_dep = hidapi_hidraw_dep
+	endif
 # elif target == 'netbsd'
 # 	subdir('netbsd')
-endif
-
-if target == 'darwin'
-elif target == 'linux'
-elif target == 'netbsd'
-elif target == 'windows'
-else
+# 	# If with_libusb is not true and this is NetBSD, make sure hidapi_dep is hidapi_netbsd_dep
+# 	if not with_libusb
+# 		hidapi_dep = hidapi_netbsd_dep
+# 	endif
+elif not get_option('with_libusb')
+	# If `with_libusb` is false and it's not one of the natively supported platforms, error
 	error('The host being compiled for is not supported.')
 endif
 
+# If the target is one of Linux, or NetBSD or something not explicitly supported above
+if target not in ['windows', 'darwin'] and get_option('with_libusb')
+	subdir('libusb')
+endif
+
+# Construct pkg-config files for all the targets built
 pkgconfig = import('pkgconfig')
 foreach name, lib : pkgconfig_files
 	pkgconfig.generate(
