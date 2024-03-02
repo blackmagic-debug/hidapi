@@ -22,6 +22,7 @@ cc = meson.get_compiler('c')
 library_mode = get_option('default_library')
 build_static = library_mode in ['static', 'both']
 build_shared = library_mode in ['shared', 'both']
+threading = dependency('threads', required: target != 'windows')
 
 version = meson.project_version()
 if get_option('print_version')
@@ -34,6 +35,8 @@ subdir('hidapi')
 
 if target == 'windows'
 	subdir('windows')
+elif target == 'darwin'
+	subdir('mac')
 endif
 
 if target == 'darwin'
