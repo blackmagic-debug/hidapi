@@ -82,3 +82,8 @@ else
 		'hidapi': hidapi_winapi_static
 	}
 endif
+
+if get_option('tests')
+	subdir('test')
+endif
+subdir('pp_data_dump')
