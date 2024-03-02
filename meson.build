@@ -39,6 +39,8 @@ elif target == 'darwin'
 	subdir('mac')
 elif target == 'linux'
 	subdir('linux')
+# elif target == 'netbsd'
+# 	subdir('netbsd')
 endif
 
 if target == 'darwin'
