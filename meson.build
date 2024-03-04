@@ -17,13 +17,18 @@ project(
 	]
 )
 
-target = target_machine.system()
-cc = meson.get_compiler('c')
+native = meson.is_cross_build() and get_option('build_native')
+if native
+	target = build_machine.system()
+else
+	target = host_machine.system()
+endif
+cc = meson.get_compiler('c', native: native)
 library_mode = get_option('default_library')
 build_static = library_mode in ['static', 'both']
 build_shared = library_mode in ['shared', 'both']
 # Only Windows does not require a threading library here
-threading = dependency('threads', required: target != 'windows')
+threading = dependency('threads', required: target != 'windows', native: native)
 install_targets = get_option('install_targets')
 with_libusb = get_option('with_libusb')
 

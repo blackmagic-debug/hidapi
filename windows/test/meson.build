@@ -9,6 +9,7 @@ reconstructor_test = executable(
 	],
 	dependencies: [hidapi_winapi_dep],
 	install: false,
+	native: native,
 )
 
 # Each test case requires 2 files:

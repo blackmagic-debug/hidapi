@@ -12,6 +12,7 @@ libusb = dependency(
 	'libusb-1.0',
 	version: '>=1.0.9',
 	method: 'pkg-config',
+	native: native,
 )
 
 hidapi_libusb_defines = []
@@ -36,7 +37,7 @@ if with_iconv.disabled()
 # If it is not explicitly disabled, we are not on Android, and the compiler is not providing iconv support
 elif target != 'android' and not cc.links(iconv_test)
 	# Try to find libiconv via pkg-config
-	iconv = dependency('iconv', required: false)
+	iconv = dependency('iconv', required: false, native: native)
 	# Check if what was found works
 	if not cc.links(iconv_test, dependencies: iconv)
 		# If it does not, try to find iconv via the compiler
@@ -67,6 +68,7 @@ hidapi_libusb = library(
 	dependencies: [threading, libusb, iconv],
 	version: meson.project_version(),
 	install: install_targets,
+	native: native,
 )
 
 hidapi_libusb_dep = declare_dependency(
@@ -75,7 +77,7 @@ hidapi_libusb_dep = declare_dependency(
 )
 
 hidapi_dep = hidapi_libusb_dep
-meson.override_dependency('hidapi-libusb', hidapi_libusb_dep)
+meson.override_dependency('hidapi-libusb', hidapi_libusb_dep, native: native)
 
 pkgconfig_files += {
 	'hidapi-libusb': hidapi_libusb

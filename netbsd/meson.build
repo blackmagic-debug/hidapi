@@ -12,6 +12,7 @@ hidapi_netbsd = library(
 	dependencies: [threading],
 	version: meson.project_version(),
 	install: install_targets,
+	native: native,
 )
 
 hidapi_netbsd_dep = declare_dependency(
@@ -19,7 +20,7 @@ hidapi_netbsd_dep = declare_dependency(
 	link_with: hidapi_netbsd,
 )
 
-meson.override_dependency('hidapi-netbsd', hidapi_netbsd_dep)
+meson.override_dependency('hidapi-netbsd', hidapi_netbsd_dep, native: native)
 
 pkgconfig_files = {
 	'hidapi-netbsd': hidapi_netbsd

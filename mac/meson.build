@@ -30,6 +30,7 @@ hidapi_darwin = library(
 	dependencies: [threading, frameworks],
 	version: meson.project_version(),
 	install: install_targets,
+	native: native,
 )
 
 hidapi_darwin_dep = declare_dependency(
@@ -38,7 +39,7 @@ hidapi_darwin_dep = declare_dependency(
 )
 
 hidapi_dep = hidapi_darwin_dep
-meson.override_dependency('hidapi_darwin', hidapi_darwin_dep)
+meson.override_dependency('hidapi_darwin', hidapi_darwin_dep, native: native)
 
 pkgconfig_files = {
 	'hidapi': hidapi_darwin

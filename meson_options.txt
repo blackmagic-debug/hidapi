@@ -6,3 +6,4 @@ option('print_version', type: 'boolean', value: true, description: 'print the HI
 option('tests', type: 'boolean', value: false, description: 'build test applications')
 option('with_libusb', type: 'boolean', value: true, description: 'build the libusb version of the library too')
 option('iconv', type: 'feature', value: 'disabled', description: 'build the libusb based library with iconv support')
+option('build_native', type: 'boolean', value: false, description: 'build targets for the build machine instead of the host machine')

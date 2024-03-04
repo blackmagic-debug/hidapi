@@ -9,4 +9,5 @@ pp_data_dump = executable(
 	],
 	dependencies: [hidapi_winapi_dep],
 	install: install_targets,
+	native: native,
 )

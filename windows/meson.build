@@ -43,6 +43,7 @@ if build_static
 		c_args: ['-DHID_API_NO_EXPORT_DEFINE'],
 		include_directories: hidapi_winapi_includes,
 		install: install_targets,
+		native: native,
 	)
 
 	if not build_shared
@@ -62,6 +63,7 @@ if build_shared
 		include_directories: hidapi_winapi_includes,
 		version: meson.project_version(),
 		install: install_targets,
+		native: native,
 	)
 
 	hidapi_winapi_dep = declare_dependency(
@@ -71,7 +73,7 @@ if build_shared
 endif
 
 hidapi_dep = hidapi_winapi_dep
-meson.override_dependency('hidapi_winapi', hidapi_winapi_dep)
+meson.override_dependency('hidapi_winapi', hidapi_winapi_dep, native: native)
 
 if build_shared
 	pkgconfig_files = {
