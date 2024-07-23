@@ -8,6 +8,7 @@ project(
 	meson_version: '>=0.58.0',
 	license: 'BSD-3-Clause OR GPL-3.0-only',
 	default_options: [
+		'c_std=gnu99',
 		'warning_level=3',
 		'b_pie=true',
 		'b_lto=true',
