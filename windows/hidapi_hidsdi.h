@@ -40,7 +40,8 @@ typedef struct _HIDD_ATTRIBUTES{
 	USHORT VersionNumber;
 } HIDD_ATTRIBUTES, *PHIDD_ATTRIBUTES;
 
-typedef struct _HIDP_PREPARSED_DATA * PHIDP_PREPARSED_DATA;
+// Already defined in hidapi_hidpi.h
+//typedef struct _HIDP_PREPARSED_DATA * PHIDP_PREPARSED_DATA;
 
 typedef void (__stdcall *HidD_GetHidGuid_)(LPGUID hid_guid);
 typedef BOOLEAN (__stdcall *HidD_GetAttributes_)(HANDLE device, PHIDD_ATTRIBUTES attrib);
